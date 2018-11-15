@@ -16,9 +16,13 @@ then
         done
         echo "Currently mounted storage devices:"
         echo
-        ls /mnt
+	#Need to figure out a way to display storage devices, internal and 
+	#mounted.
+
         echo "Specify the location where you want to save your backup: "
         read location
+	test_file="test.tgz"
+	tar czf $location/$test_file $dirfile
+
 
 fi
-
