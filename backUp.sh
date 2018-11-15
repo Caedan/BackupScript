@@ -21,3 +21,5 @@ then
         read location
 
 fi
+
+test
