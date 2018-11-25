@@ -1,3 +1,4 @@
+
 #!/bin/bash
 
 echo "1. Backup"
@@ -27,15 +28,27 @@ then
 
         # Tar creates an archive with the specified name
         # compresses it and saves it in the specified location
+        # c - creates - p preserve permissions - compress/uncompress
+        # f - filename
         sudo tar -cpzf /mnt/$location/backup.tar.gz --absolute-names $dirfile
 
-fi
 elif [ $option = 2 ]
 then
         echo "Specify the backup you wish to deploy:"
         read recoveryTar
-fi
+
+        # This while loop checks if the user typed in an existing directory or file
+        while [ ! -r "$recoveryTar" ]
+        do
+                        echo "Type in a valid file path:"
+                        read recoveryTar
+        done
+        echo "Type in a directory you wish to unpack your backup in:"
+        read recoveryDir
+
+        # Tar unpacks and uncompresses the backup
+        # x - extract
+        sudo tar -xpzf $recoveryTar --absolute-names -C $recoveryDir
 else
-then
         echo "You can only type in a number displayed on the menu"
 fi
