@@ -59,6 +59,7 @@ then
         # x - extract files from archieve
 		# z - tells tar to uncrompress the gzip file
 		# f - specify file name of file
+		
         sudo tar -xzf $recoveryLocation.tar.gz -C/$recoveryDestination
 else
         echo "You can only type in a number displayed on the menu"
