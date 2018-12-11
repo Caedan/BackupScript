@@ -9,7 +9,21 @@ echo "Select a menu option: "
 # Saves user input in $option variable
 read option
 
-#If statements used to validate user input
+#!/bin/bash
+
+echo "This Backup script allows you to backup a directory or a single file."
+echo "In case you have files in a directory you don't wish to backup,"
+echo "Create a seperate directory containing only the files you want to backup."
+echo
+echo "1. Backup (One time backup)"
+echo "2. Restore"
+echo
+echo "Select a menu option: "
+
+# Saves user input in $option variable
+read option
+
+# If statements used to validate user input
 if [ $option = 1 ]
 then
         echo "Current Directory:"
@@ -29,9 +43,11 @@ then
         echo "Mounted storage devices:"
         echo
         tree -L 1 /mnt
-        echo "Please select one of the above devices to save your backup: "
+        echo "Please select one of the above devices to save your backup"
+		echo "Note that you don't have to type in the entire path !"
+		echo "You don't need to start by typing in '/mnt/', only to type in the name of the device listed above."
         read savelocation
-        echo "What would  you like the backup file to be called?"
+        echo "What would  you like the backup file to be called? (The extension '.tar.gz' or '.tar.bz2' is added automatically)"
         read backupName
         echo "Would you like to create a bzip or a gzip file ? (b = bzip, g = gzip)"
         read zip
@@ -54,7 +70,9 @@ elif [ $option = 2 ]
 then
         echo "Currently mounted Devices:"
         tree -L 1 /mnt/
-        echo "Please specify the device containing your backup"
+        echo "Please specify the device containing your backup."
+		echo "Note that you don't have to type in the entire path !"
+		echo "You don't need to start by typing in '/mnt/', only type in the name of the device listed above."
         read devChoice
         devChoice=/mnt/$devChoice
         echo
@@ -88,43 +106,7 @@ then
                 echo "Your backup has been successfully restored!"
                 ls $recoveryDestination
         fi
-elif [ $option = 3 ]
-then
-        echo "Current Directory:"
-        tree
-        echo "Please select one of the above mentioned files or folders to backup:"
-        read dirfile
-
-        #While loop used to validate directory entered by the user
-        while [ ! -r "$dirfile" ]
-        do
-                #If an invalid directory is entered and error message is displayed
-                echo "Invalid directory"
-                echo "Type in a valid directory or file path:"
-                read dirfile
-        done
-
-        echo "Mounted storage devices:"
-        echo
-        tree -L 1 /mnt
-        echo "Please select one of the above devices to save your backup: "
-        read savelocation
-        echo "What would  you like the backup file to be called?"
-        read backupName
-
-        echo "* * * * *"
-        echo "- - - - -"
-        echo "| | | | |"
-        echo "| | | | ----- Day of week (0 - 7) (Sunday=0 or 7) "
-        echo "| | | ------- Month (1 - 12)"
-        echo "| | --------- Day of month (1 - 31)"
-        echo "| ----------- Hour (0 - 23)"
-        echo "------------- Minute (0 - 59)"
-        echo "Worth mentioning that the (*) sign on its own means every minute/hour/month/..."
-        echo
-        echo "Please indicate when you want to backup your file or folder:"
-        read scheduleSyntax
-
 else
-        echo "You can only type in a number displayed on the menu"
+		echo
+        echo "You can only type in a number displayed on the menu !"
 fi
