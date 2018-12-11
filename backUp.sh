@@ -33,45 +33,61 @@ then
         read savelocation
         echo "What would  you like the backup file to be called?"
         read backupName
-        # Tar creates an archive with the specified name
-        # compresses it and saves it in the specified location
-        # c - creates an archive
-        # p - preserves permissions
-        # z - tells tar to write files through gzip
-        # f - specify the file name of archive
-
-        sudo tar -cpzf /mnt/$savelocation/$backupName.tar.gz $dirfile
-
-        echo "Your files have been successfully backed up !"
+        echo "Would you like to create a bzip or a gzip file ? (b = bzip, g = gzip)"
+        read zip
+        if [ $zip = "g" ]
+        then
+                # Tar creates an archive with the specified name
+                # compresses it and saves it in the specified location
+                # c - creates an archive
+                # p - preserves permissions
+                # z - tells tar to write files through gzip
+                # f - specify the file name of archive
+                sudo tar -cpzf /mnt/$savelocation/$backupName.tar.gz $dirfile
+                echo "Your files have been successfully backed up !"
+        else
+                # j - compresses the file in bzip2 format
+                sudo tar -cpjf /mnt/$savelocation/$backupName.tar.bz2 $dirfile
+                echo "Your files have been successfully backed up !"
+        fi
 elif [ $option = 2 ]
 then
         echo "Currently mounted Devices:"
         tree -L 1 /mnt/
-        echo "Please specify the device containing your backup you wish to deploy"
+        echo "Please specify the device containing your backup"
         read devChoice
         devChoice=/mnt/$devChoice
-        echo "Select the backup you wish to deploy"
-        tree -P '*.tar.gz' $devChoice
+        echo
+        echo "The selected device contains the following"
+        echo
+        tree -P '*.tar.*' $devChoice
+        echo
+        echo "Select a backup file listed above:"
         read recoverThis
         recoverThis=$devChoice/$recoverThis
         #This while loop checks if the user typed in an existing directory or file
         while [ ! -r $recoverThis ]
-         do
+        do
                 echo "Type in a valid file path:"
                 read recoverThis
         done
         echo "Type in a directory you wish to unpack your backup in:"
         read recoveryDestination
-
-        # Tar unpacks and uncompresses the backup
-        # x - extract files from archive
-        # p - perserves permissions
-        # z - tells tar to uncrompress the gzip file
-        # f - specify file name of file
-        sudo tar -xpzf $recoverThis -C/$recoveryDestination
-        echo
-        echo "Your backup has been successfully restored!"
-        ls $recoveryDestination
+        if [ $recoverThis = "*.tar.gz" ]
+        then
+                # Tar unpacks and uncompresses the backup
+                # x - extract files from archive
+                # p - perserves permissions
+                # z - tells tar to uncrompress the gzip file
+                # f - specify file name of file
+                sudo tar -xpzf $recoverThis -C/$recoveryDestination
+                ls $recoveryDestination
+        else
+                sudo tar -xpjf $recoverThis -C/$recoveryDestination
+                echo
+                echo "Your backup has been successfully restored!"
+                ls $recoveryDestination
+        fi
 elif [ $option = 3 ]
 then
         echo "Current Directory:"
@@ -108,6 +124,7 @@ then
         echo
         echo "Please indicate when you want to backup your file or folder:"
         read scheduleSyntax
+
 else
         echo "You can only type in a number displayed on the menu"
 fi
