@@ -1,15 +1,4 @@
- #!/bin/bash
-
-echo "1. Backup (One time backup)"
-echo "2. Restore"
-echo "3. Schedule a Backup"
-echo
-echo "Select a menu option: "
-
-# Saves user input in $option variable
-read option
-
-#!/bin/bash
+  #!/bin/bash
 
 echo "This Backup script allows you to backup a directory or a single file."
 echo "In case you have files in a directory you don't wish to backup,"
