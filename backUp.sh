@@ -1,8 +1,11 @@
-  #!/bin/bash
+#!/bin/bash
 
 echo "This Backup script allows you to backup a directory or a single file."
 echo "In case you have files in a directory you don't wish to backup,"
 echo "Create a seperate directory containing only the files you want to backup."
+echo "Software Dependencies:"
+echo "- Tree command (sudo apt-get install tree)"
+echo "- Bzip2 (sudo apt-get bzip2) Bzip is optional if you don't want to use it'"
 echo
 echo "1. Backup (One time backup)"
 echo "2. Restore"
@@ -18,8 +21,9 @@ then
         echo "Current Directory:"
         tree
         echo "Please select one of the above mentioned files or folders to backup:"
+	echo "(Only the current directory can )"
         read dirfile
-
+	dirfile="$(pwd)/$dirfile"
         #While loop used to validate directory entered by the user
         while [ ! -r "$dirfile" ]
         do
@@ -33,8 +37,10 @@ then
         echo
         tree -L 1 /mnt
         echo "Please select one of the above devices to save your backup"
-		echo "Note that you don't have to type in the entire path !"
-		echo "You don't need to start by typing in '/mnt/', only to type in the name of the device listed above."
+	echo
+	echo "Note that you don't have to type in the entire path !"
+	echo "You don't need to start by typing in '/mnt/', only to type in the name of the device listed above."
+	echo
         read savelocation
         echo "What would  you like the backup file to be called? (The extension '.tar.gz' or '.tar.bz2' is added automatically)"
         read backupName
@@ -60,8 +66,10 @@ then
         echo "Currently mounted Devices:"
         tree -L 1 /mnt/
         echo "Please specify the device containing your backup."
-		echo "Note that you don't have to type in the entire path !"
-		echo "You don't need to start by typing in '/mnt/', only type in the name of the device listed above."
+	echo
+	echo "Note that you don't have to type in the entire path !"
+	echo "You don't need to start by typing in '/mnt/', only type in the name of the device listed above."
+	echo
         read devChoice
         devChoice=/mnt/$devChoice
         echo
@@ -96,6 +104,6 @@ then
                 ls $recoveryDestination
         fi
 else
-		echo
+	echo
         echo "You can only type in a number displayed on the menu !"
 fi
