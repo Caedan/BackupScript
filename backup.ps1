@@ -108,10 +108,6 @@ elseif($option -eq 2){ #Recovery Option
         echo "No path was selected for recovery...Exiting script"
     }
 }
-
-
-
-
 else{
     echo "You can only type in a number displayed on the menu"
 }
