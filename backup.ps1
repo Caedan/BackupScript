@@ -1,4 +1,4 @@
-﻿echo "1. Backup"
+echo "1. Backup"
 echo "2. Restore"
 echo ""
 
@@ -8,12 +8,12 @@ $option = Read-Host "Please select a menu Option"
 #Load pre-built form assembly
 Add-Type -AssemblyName System.Windows.Forms  
 
-if($option -eq 1){
+if($option -eq 1){ #Backup Option
     echo ""
     echo "Select the file or directory you would like to backup using the Folder Browser"
 
     #'New-Object' used to create the form for the Folder Browser Dialog                           
-    $folderBrowse = New-Object System.Windows.Forms.OpenFileDialog
+    $folderBrowse = New-Object System.Windows.Forms.FolderBrowserDialog
     #$folderBrowse.Description = "Select file or directory to backup"        
 
     #'ShowDialog' is used to invoke the Folder Browser Dialog.
@@ -42,7 +42,7 @@ if($option -eq 1){
 
  
             $tmpDirSave = $folderBrowse2.SelectedPath
-            Compress-Archive -Path $folderBrowse.SelectedPath -DestinationPath $tmpDirSave\$backupName.zip
+            Compress-Archive -Path $folderBrowse.SelectedPath -DestinationPath $tmpDirSave\$backupName -Force
             echo "Backup successful, your backup is now saved in $tmpDirSave\$backupName"
             }
             
@@ -61,42 +61,41 @@ if($option -eq 1){
 
     
 
-elseif($option -eq 2){
+elseif($option -eq 2){ #Recovery Option
     
     echo ""
     echo "Select the file or directory you would like to restore using the Folder Browser"
     
     #'New-Object' used to create the form for the Folder Browser Dialog                           
-    $folderBrowse3 = New-Object System.Windows.Forms.FolderBrowserDialog
-    $folderBrowse3.Description = "Select file or directory to restore"        
+    $fileBrowser = New-Object System.Windows.Forms.OpenFileDialog   
 
     #'ShowDialog' is used to invoke the Folder Browser Dialog.
     #The output of the 'ShowDialog' method is assigned to the 'resSelect' variable
-    $recSelect = $folderBrowse3.ShowDialog((New-Object System.Windows.Forms.Form -Property @{TopMost = $True}))       
+    $recSelect = $fileBrowser.ShowDialog((New-Object System.Windows.Forms.Form -Property @{TopMost = $True}))       
     
     #'SelectedPath' used to get the directory of the selected folder/file and save it to 'DirSelect' variable 
     echo ""                                     
-    echo "Path selected:" $folderBrowse3.SelectedPath 
+    echo "Path selected:" $fileBrowser.FileName
     echo ""
 
     if ($recSelect -eq [Windows.Forms.DialogResult]::OK){
         
         echo "Select the location for the recovery to be saved using the Folder Browser"
-        $folderBrowse4 = New-Object System.Windows.Forms.FolderBrowserDialog
-        $folderBrowse4.Description = "Select location for the recovery to be saved"
+        echo "Note: You must enter a name for the recovery"
+        $fileSaver = New-Object System.Windows.Forms.SaveFileDialog
+        #$fileSaver.Filter
         echo ""
-        $recSave= $folderBrowse4.ShowDialog((New-Object System.Windows.Forms.Form -Property @{TopMost = $True})) 
+        $recSave= $fileSaver.ShowDialog((New-Object System.Windows.Forms.Form -Property @{TopMost = $True})) 
 
         if ($recSave -eq [Windows.Forms.DialogResult]::OK){
-            echo "Path selected:" $folderBrowse4.SelectedPath 
-            $backupName = Read-Host "What would you like the file to be called?"
+            echo "Path selected:" $fileSaver.FileName
             echo ""
             echo "Starting recovery process..."
 
  
-            $tmpReccSave = $folderBrowse4.SelectedPath
-            Expand-Archive -Path $folderBrowse3.SelectedPath -DestinationPath $tmpRecSave\$backupName
-            echo "Backup successful, your backup is now saved in $tmpRecSave\$backupName"
+            $tmpRecSave = $fileSaver.FileName
+            Expand-Archive -Path $fileBrowser.FileName -DestinationPath $tmpRecSave\$recoveryName
+            echo "Recovery successful, your recovery is now saved in $tmpRecSave\$recoveryName"
             }
             
         else{
@@ -116,6 +115,3 @@ elseif($option -eq 2){
 else{
     echo "You can only type in a number displayed on the menu"
 }
-
-
-
