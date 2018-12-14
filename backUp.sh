@@ -88,7 +88,7 @@ then
         done
         echo "Type in a directory you wish to unpack your backup in:"
         read recoveryDestination
-        if [ $recoverThis = "*.tar.gz" ]
+        if [[ "$recoverThis" =~ \.gz$ ]]
         then
                 # Tar unpacks and uncompresses the backup
                 # x - extract files from archive
