@@ -6,7 +6,7 @@ echo "Create a seperate directory containing only the files you want to backup."
 echo "Software Dependencies:"
 echo "- Tree command (sudo apt-get install tree)"
 echo "- GPG command (sudo apt-get install gpg) only necessary if you want your backups encrypted"
-echo "- Bzip2 (sudo apt-get bzip2) Bzip is optional if you don't want to use it"
+echo "- Bzip2 (sudo apt-get install bzip2) Bzip is optional if you don't want to use it"
 echo
 echo "1. Backup (One time backup)"
 echo "2. Restore"
