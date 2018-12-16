@@ -1,5 +1,6 @@
 #Use "Install-Module -Name 7Zip4Powershell -RequiredVersion 1.8.0" to install the 7zip PowerShell module
 #Load pre-built form assembly
+Install-Module -Name 7Zip4Powershell -RequiredVersion 1.8.0
 Add-Type -AssemblyName System.Windows.Forms
 #currentDate = Get-Date -UFormat "%d/%m/%y"
 $Global:formatSelection = ""
@@ -169,11 +170,7 @@ function recovery{
             $checkSize = (Get-ChildItem $recSave -Recurse -File | Measure-Object -property length -sum).Sum
             echo $checkSize
 
-            while ($encrypted -and $checkSize -le 2){
-
-                $error.Clear() 
-                
-                if ($error.Count -eq 0) {
+            while ($encrypted -and $checkSize -le 500){
 
                 echo ""
                 $recoveryPassword = Read-Host "Enter password" -AsSecureString
@@ -185,12 +182,7 @@ function recovery{
                 Expand-7Zip -ArchiveFileName $fileBrowser.FileName -TargetPath $recSave -Password $recoveryPassword *>$null
                 $checkSize = (Get-ChildItem $recSave -Recurse -File | Measure-Object -property length -sum).Sum
 
-                }
-
-                else{
-                    echo "There was a problem, please try again"
-                    menuOptions
-                }
+               
 
 
             }
@@ -345,7 +337,3 @@ echo "*Welcome*"
 }
 ASCII_Intro
 menuOptions
-
-
-
-
