@@ -20,7 +20,8 @@ read option
 if [ $option = 1 ]
 then
 	# Executes pwd command in a subshell. Output is the current directory
-	currentDir=$(pwd)echo "Current Directory:"
+	currentDir=$(pwd)
+	echo "Current Directory:"
   	# Shows a treeview of the current directory
   	tree
   	echo "Please select one of the above mentioned files or folders to backup:"
