@@ -42,8 +42,7 @@ then
   tree -L 1 /mnt
   echo "Please select one of the above devices to save your backup"
 	echo
-	echo "Note that you don't have to type in the entire path !"
-	echo "You don't need to type in the name of the directory '/mnt/', only to type in the name of the device listed above."
+	echo "Note that you don't have to type in the entire path, only the name of the device"
   read savelocation
 	echo "What would  you like the backup file to be called? (The extension '.tar.gz' or '.tar.bz2' is added automatically)"
   read backupName
@@ -108,8 +107,7 @@ then
   tree -L 1 /mnt/
   echo "Please specify the device containing your backup."
 	echo
-	echo "Note that you don't have to type in the entire path !"
-	echo "You should ommit the name of the directory '/mnt/...', only type in the name of the device listed above."
+	echo "Note that you don't have to type in the entire path, only the name of the device !"
   read devChoice
   devChoice=/mnt/$devChoice
   echo
@@ -117,7 +115,7 @@ then
   echo
   tree -P '*.tar.*' $devChoice/Backups
   echo
-	echo "Only type in the name of the file !"
+	echo "Only type in the name of the file ! + extension of the file"
   echo "Select a backup file listed above:"
   read recoverThis
 	# Variable contains path to backup
@@ -132,6 +130,11 @@ then
   done
   echo "Type in a directory you wish to unpack your backup in:"
   read recoveryDestination
+	while [ ! -r $recoveryDestination ]
+  do
+    echo "Type in a valid directory:"
+    read recoveryDestination
+  done
   if  [[ $recoverThis =~ \.gpg$ ]]
   then
 		# This variable executes a piped command in a subshell in
