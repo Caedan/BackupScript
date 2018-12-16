@@ -28,7 +28,7 @@ then
   	echo "(You can only choose files from your current directory: $currentDir)"
   	read dirfile
   	checkDirfile=$currentDir/$dirfile
-  	#While loop used to validate directory entered by the user
+  	# While loop used to validate directory entered by the user
 	while [ ! -r "$checkDirfile" ]
 	do
 		#If an invalid directory is entered and error message is displayed
@@ -52,8 +52,8 @@ then
   	while [[ $zip != "g" && $zip != "b" ]]
   	do
    		echo "It seems you typed in an invalid character, please be aware you can only choose between the following options."
-    	echo "(b = bzip, g = gzip) case sensitive !!!"
-    	read zip
+    		echo "(b = bzip, g = gzip) case sensitive !!!"
+    		read zip
   	done
 	# Checks if a Backups folder aleady exists, if not it creates one within the chosen storage device
 	if [ ! -r "/mnt/$savelocation/Backups" ]
@@ -107,7 +107,7 @@ then
 	tree -L 1 /mnt/
 	echo "Please specify the device containing your backup."
 	echo
-	echo "Note that you don't have to type in the entire path, only the name of the device + extension .tar.gz.gpg f.ex!"
+	echo "Note that you don't have to type in the entire path, only the name of the device !"
 	read devChoice
 	devChoice=/mnt/$devChoice
 	echo
@@ -115,7 +115,7 @@ then
 	echo
 	tree -P '*.tar.*' $devChoice/Backups
 	echo
-	echo "Only type in the name of the file !"
+	echo "Only type in the name of the file ! Don't forget the extension of the file .tar.gz f.ex"
 	echo "Select a backup file listed above:"
 	read recoverThis
 	# Variable contains path to backup
