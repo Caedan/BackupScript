@@ -171,7 +171,7 @@ then
 			# List the content in the recovery directory to check if all files have been recoverd
 			ls $recoveryDestination
 		fi
-	else
+else
 			if  [[ $recoverThis =~ \.gz$ ]]
 			then
 				sudo tar -xpzf $recoverThis -C/$recoveryDestination
