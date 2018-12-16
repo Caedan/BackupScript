@@ -72,7 +72,8 @@ function backup{
                 echo ""
                 echo "File will not be encrypted..."
                 echo "Backup successful, your backup is now saved in $backupPath"
-                menuOptions
+                echo "Exiting script..."
+                exit
             }
         
 
@@ -132,6 +133,7 @@ function recovery{
             echo "Starting recovery process..."
 
             $encrypted = [System.IO.File]::GetAttributes($fileBrowser.FileName).ToString().Contains("Encrypted")
+            echo $encrypted
 
             if ($encrypted){
                 $recoveryPassword = Read-Host "Enter password" -AsSecureString
@@ -142,15 +144,23 @@ function recovery{
             }
 
             else {
+                echo "recoverypass was set to 0"
+
                 $recoveryPassword = ""
+
+                echo ""
+                echo $recoveryPassword
             }
 
+            
+
             $recSave = $fileSaver.FileName
+            Expand-7Zip -ArchiveFileName $fileBrowser.FileName -TargetPath $recSave -Password $recoveryPassword *>$null
 
             echo $fileBrowser.FileName
             echo $recSave
-            Expand-7Zip -ArchiveFileName $fileBrowser.FileName -TargetPath $recSave -Password $recoveryPassword *>$null
-            Out-File -FilePath $recSave\recoveryTest.txt
+            
+            #Out-File -FilePath $recSave\recoveryTest.txt
             
             #The problem with the 7zip4PowerShell module is that there is no test for the password
             #So if the user enters the wrong password the recovery will still take place but the recovered files will be EMPTY
@@ -159,20 +169,34 @@ function recovery{
             $checkSize = (Get-ChildItem $recSave -Recurse -File | Measure-Object -property length -sum).Sum
             echo $checkSize
 
-            while ($checkSize -le 2){
-                Remove-Item -Path $recSave -Recurse
-                echo "Invalid password entered"
+            while ($encrypted -and $checkSize -le 2){
+
+                $error.Clear() 
+                
+                if ($error.Count -eq 0) {
+
                 echo ""
                 $recoveryPassword = Read-Host "Enter password" -AsSecureString
                 $recoveryPassword =[Runtime.InteropServices.Marshal]::PtrToStringAuto(
                 [Runtime.InteropServices.Marshal]::SecureStringToBSTR($recoveryPassword))
                 
+                echo $fielBrowser.FileName
+                Remove-Item -Path $recSave -Recurse *>$null
                 Expand-7Zip -ArchiveFileName $fileBrowser.FileName -TargetPath $recSave -Password $recoveryPassword *>$null
                 $checkSize = (Get-ChildItem $recSave -Recurse -File | Measure-Object -property length -sum).Sum
 
+                }
+
+                else{
+                    echo "There was a problem, please try again"
+                    menuOptions
+                }
+
+
             }
             echo "Recovery successful, your recovery is now saved in $recSave"
-            menuOptions
+            echo "Exiting script..."
+            echo ""
             }
             
         else{
@@ -233,7 +257,9 @@ function encryption{
         echo "File has been encrypted..."
         echo ""
         echo "Backup successful, your backup is now saved in $backupPath"
-        menuOptions
+        echo ""
+        echo "Exiting script..."
+        exit
 
 }
 
