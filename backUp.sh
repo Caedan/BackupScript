@@ -171,24 +171,24 @@ then
 			# List the content in the recovery directory to check if all files have been recoverd
 			ls $recoveryDestination
 		fi
-else
-			if  [[ $recoverThis =~ \.gz$ ]]
-			then
-				sudo tar -xpzf $recoverThis -C/$recoveryDestination
-				echo
-				echo "Your backup has been successfully restored!"
-				echo
-				# List the content in the recovery directory to check if all files have been recoverd
-				ls $recoveryDestination
-			else
-				sudo tar -xpjf $recoverThis -C/$recoveryDestination
-				echo
-				echo "Your backup has been successfully restored!"
-				echo
-				# List the content in the recovery directory to check if all files have been recoverd
-				ls $recoveryDestination
-			fi
-    fi
+	else
+		if  [[ $recoverThis =~ \.gz$ ]]
+		then
+			sudo tar -xpzf $recoverThis -C/$recoveryDestination
+			echo
+			echo "Your backup has been successfully restored!"
+			echo
+			# List the content in the recovery directory to check if all files have been recoverd
+			ls $recoveryDestination
+		else
+			sudo tar -xpjf $recoverThis -C/$recoveryDestination
+			echo
+			echo "Your backup has been successfully restored!"
+			echo
+			# List the content in the recovery directory to check if all files have been recoverd
+			ls $recoveryDestination
+		fi
+   fi
 else
 	echo
         echo "You can only type in a number displayed on the menu !"
