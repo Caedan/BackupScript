@@ -133,7 +133,6 @@ function recovery{
 
             $encrypted = [System.IO.File]::GetAttributes($fileBrowser.FileName).ToString().Contains("Encrypted")
 
-            
             if ($encrypted){
                 $recoveryPassword = Read-Host "Enter password" -AsSecureString
 
@@ -148,18 +147,19 @@ function recovery{
 
             $recSave = $fileSaver.FileName
 
-            echo "this works"
             echo $fileBrowser.FileName
             echo $recSave
             Expand-7Zip -ArchiveFileName $fileBrowser.FileName -TargetPath $recSave -Password $recoveryPassword *>$null
+            Out-File -FilePath $recSave\recoveryTest.txt
             
             #The problem with the 7zip4PowerShell module is that there is no test for the password
             #So if the user enters the wrong password the recovery will still take place but the recovered files will be EMPTY
             #To fix this issue the following parameters of the 'Get-ChildItem' command where used to check if the recovered folder is empty.
 
             $checkSize = (Get-ChildItem $recSave -Recurse -File | Measure-Object -property length -sum).Sum
+            echo $checkSize
 
-            while ($checkSize -eq 0){
+            while ($checkSize -le 2){
                 Remove-Item -Path $recSave -Recurse
                 echo "Invalid password entered"
                 echo ""
@@ -167,7 +167,7 @@ function recovery{
                 $recoveryPassword =[Runtime.InteropServices.Marshal]::PtrToStringAuto(
                 [Runtime.InteropServices.Marshal]::SecureStringToBSTR($recoveryPassword))
                 
-                Expand-7Zip -ArchiveFileName $fileBrowser.FileName -TargetPath $recSave -Password $recoveryPassword
+                Expand-7Zip -ArchiveFileName $fileBrowser.FileName -TargetPath $recSave -Password $recoveryPassword *>$null
                 $checkSize = (Get-ChildItem $recSave -Recurse -File | Measure-Object -property length -sum).Sum
 
             }
