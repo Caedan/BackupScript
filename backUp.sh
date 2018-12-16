@@ -20,15 +20,14 @@ read option
 if [ $option = 1 ]
 then
 	# Executes pwd command in a subshell. Output is the current directory
-	currentDir=$(pwd)
-	echo "Current Directory:"
-  # Shows a treeview of the current directory
-  tree
-  echo "Please select one of the above mentioned files or folders to backup:"
-  echo "(You can only choose files from your current directory: $currentDir)"
-  read dirfile
-  checkDirfile=$currentDir/$dirfile
-  #While loop used to validate directory entered by the user
+	currentDir=$(pwd)echo "Current Directory:"
+  	# Shows a treeview of the current directory
+  	tree
+  	echo "Please select one of the above mentioned files or folders to backup:"
+  	echo "(You can only choose files from your current directory: $currentDir)"
+  	read dirfile
+  	checkDirfile=$currentDir/$dirfile
+  	#While loop used to validate directory entered by the user
 	while [ ! -r "$checkDirfile" ]
 	do
 		#If an invalid directory is entered and error message is displayed
@@ -37,33 +36,33 @@ then
 		read checkDirfile
 	done    
 	echo "Mounted storage devices:"
-  echo
+	echo
 	# Shows a treeview of the directory '/mnt'
-  tree -L 1 /mnt
-  echo "Please select one of the above devices to save your backup"
- 	echo
-  echo "Note that you don't have to type in the entire path !"
-  echo "You don't need to type in the name of the directory '/mnt/', only to type in the name of the device listed above."
-  read savelocation
-  echo "What would  you like the backup file to be called? (The extension '.tar.gz' or '.tar.bz2' is added automatically)"
-  read backupName
-  echo "Would you like to create a bzip or a gzip file ? (b = bzip, g = gzip)"
-  read zip
-  # Checks wether the user typed in a valid character
-  while [[ $zip != "g" && $zip != "b" ]]
-  do
-    echo "It seems you typed in an invalid character, please be aware you can only choose between the following options."
-		echo "(b = bzip, g = gzip) case sensitive !!!"
-		read zip
-	done
+  	tree -L 1 /mnt
+ 	echo "Please select one of the above devices to save your backup"
+  	echo
+  	echo "Note that you don't have to type in the entire path !"
+  	echo "You don't need to type in the name of the directory '/mnt/', only to type in the name of the device listed above."
+  	read savelocation
+  	echo "What would  you like the backup file to be called? (The extension '.tar.gz' or '.tar.bz2' is added automatically)"
+  	read backupName
+  	echo "Would you like to create a bzip or a gzip file ? (b = bzip, g = gzip)"
+  	read zip
+  	# Checks wether the user typed in a valid character
+  	while [[ $zip != "g" && $zip != "b" ]]
+  	do
+   		echo "It seems you typed in an invalid character, please be aware you can only choose between the following options."
+    	echo "(b = bzip, g = gzip) case sensitive !!!"
+    	read zip
+  	done
 	# Checks if a Backups folder aleady exists, if not it creates one within the chosen storage device
 	if [ ! -r "/mnt/$savelocation/Backups" ]
 	then
 		mkdir /mnt/$savelocation/Backups
 	fi
 	# If statement asking the user which compression format to use
- if [[ $zip = g ]]
- then
+ 	if [[ $zip = g ]]
+ 	then
 		# Tar creates an archive with the specified name
 		# compresses it and saves it in the specified location
 		# c - creates an archive
@@ -86,12 +85,12 @@ then
 			echo
 			echo "encrypted backup has been successfully created !"
 		fi
- else
-		# j - compresses the file in bzip2 format
-		sudo tar -cpjPf /mnt/$savelocation/Backups/$backupName.tar.bz2 $dirfile
-		echo "Your files have been successfully backed up !"
-		echo "Would you like to encrypt your file ? (y = yes) case sensitive"
-		read answer
+ 		else
+			# j - compresses the file in bzip2 format
+			sudo tar -cpjPf /mnt/$savelocation/Backups/$backupName.tar.bz2 $dirfile
+			echo "Your files have been successfully backed up !"
+			echo "Would you like to encrypt your file ? (y = yes) case sensitive"
+			read answer
 		if [ $answer = "y" ]
 		then
 			# Encrypting bunzip archive with aes cipher
@@ -125,15 +124,15 @@ then
 	#This while loop checks if the user typed in an existing directory or file
 	while [ ! -r $recoverThis ]
 	do
-	 echo "Type in a valid file path:"
-	 tree -P '*.tar.*' $devChoice/Backups
-	 echo "Only type in the name of the file !"
-   read recoverThis
+		echo "Type in a valid file path:"
+		tree -P '*.tar.*' $devChoice/Backups
+		echo "Only type in the name of the file !"
+		read recoverThis
 	done
 	echo "Type in a directory you wish to unpack your backup in:"
-  read recoveryDestination
-  if  [[ $recoverThis =~ \.gpg$ ]]
-  then
+	read recoveryDestination
+	if  [[ $recoverThis =~ \.gpg$ ]]
+	then
 		# This variable executes a piped command in a subshell in
 		# In the cut command is a delimiter defined '.' and an index '3'
 		# The purpose is to identify if the given file is a gzip or a bizip2 file
@@ -188,7 +187,7 @@ then
 			# List the content in the recovery directory to check if all files have been recoverd
 			ls $recoveryDestination
 		fi
-   fi
+	fi
 else
 	echo
         echo "You can only type in a number displayed on the menu !"
