@@ -41,8 +41,7 @@ then
   	tree -L 1 /mnt
  	echo "Please select one of the above devices to save your backup"
   	echo
-  	echo "Note that you don't have to type in the entire path !"
-  	echo "You don't need to type in the name of the directory '/mnt/', only to type in the name of the device listed above."
+  	echo "Note that you don't have to type in the entire path, only the name of the device !"
   	read savelocation
   	echo "What would  you like the backup file to be called? (The extension '.tar.gz' or '.tar.bz2' is added automatically)"
   	read backupName
@@ -107,8 +106,7 @@ then
 	tree -L 1 /mnt/
 	echo "Please specify the device containing your backup."
 	echo
-	echo "Note that you don't have to type in the entire path !"
-	echo "You should ommit the name of the directory '/mnt/...', only type in the name of the device listed above."
+	echo "Note that you don't have to type in the entire path, only the name of the device + extension .tar.gz.gpg f.ex!"
 	read devChoice
 	devChoice=/mnt/$devChoice
 	echo
