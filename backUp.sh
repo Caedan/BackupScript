@@ -2,7 +2,7 @@
 
 echo "This Backup script allows you to backup a directory or a single file."
 echo "In case you have files in a directory you don't wish to backup,"
-echo "Create a seperate directory containing only the files you want to backup."
+echo "Create a separate directory containing only the files you want to backup."
 echo "Software Dependencies:"
 echo "- Tree command (sudo apt-get install tree)"
 echo "- GPG command (sudo apt-get install gpg) only necessary if you want your backups encrypted"
