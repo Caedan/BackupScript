@@ -157,10 +157,10 @@ then
 			echo
 			echo "Your backup has been successfully restored!"
 			echo
-			# List the content in the recovery directory to check if all files have been recoverd
+			# List the content in the recovery directory
 			ls $recoveryDestination
 		else
-			# Decrypting the file which was encrypted with the cipher aes-256-cbc
+			# Decrypting the file which was encrypted
 			gpg -d $recoverThis > $getName.tar.bz2
 			# Tar unpacks and uncompresses the backup
 			# x - extract files from archive
@@ -171,7 +171,7 @@ then
 			echo
 			echo "Your backup has been successfully restored!"
 			echo
-			# List the content in the recovery directory to check if all files have been recoverd
+			# List the content in the recovery directory
 			ls $recoveryDestination
 		fi
   	else
@@ -181,14 +181,14 @@ then
 			echo
 			echo "Your backup has been successfully restored!"
 			echo
-			# List the content in the recovery directory to check if all files have been recoverd
+			# List the content in the recovery directory
 			ls $recoveryDestination
 		else
 			sudo tar -xpjf $recoverThis -C/$recoveryDestination
 			echo
 			echo "Your backup has been successfully restored!"
 			echo
-			# List the content in the recovery directory to check if all files have been recoverd
+			# List the content in the recovery directory
 			ls $recoveryDestination
 		fi
   	fi
