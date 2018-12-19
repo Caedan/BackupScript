@@ -110,6 +110,13 @@ then
 	echo "Note that you don't have to type in the entire path, only the name of the device !"
   	read devChoice
   	devChoice=/mnt/$devChoice
+	while [ ! -r $devChoice ]
+	do
+		echo "Device does not exist"
+		echo "Remember to only type in the name of the device"
+		read devChoice
+		devChoice=/mnt/$devChoice
+	done
   	echo
   	echo "The selected device contains the following"
   	echo
@@ -127,6 +134,7 @@ then
 		tree -P '*.tar.*' $devChoice/Backups
 		echo "Only type in the name of the file !"
     		read recoverThis
+		recoverThis=$devChoice/Backups/$recoverThis
   	done
   	echo "Type in a directory you wish to unpack your backup in:"
   	read recoveryDestination
