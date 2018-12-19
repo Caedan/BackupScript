@@ -36,6 +36,7 @@ then
       		echo "Type in a valid directory or file path:"
       		read checkDirfile
   	done
+	dirfile=$checkDirfile
   	echo "Mounted storage devices:"
   	echo
 	# Shows a treeview of the directory '/mnt'
@@ -44,6 +45,12 @@ then
 	echo
 	echo "Note that you don't have to type in the entire path, only the name of the device"
   	read savelocation
+	while [ ! -r /mnt/$savelocation ]
+        do
+                echo "Device does not exist"
+                echo "Remember only the device name is needed"
+                read savelocation
+        done
 	echo "What would  you like the backup file to be called? (The extension '.tar.gz' or '.tar.bz2' is added automatically)"
   	read backupName
   	echo "Would you like to create a bzip or a gzip file ? (b = bzip, g = gzip)"
